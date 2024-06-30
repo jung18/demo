@@ -1,7 +1,9 @@
-package com.example.demo.repository;
+package com.example.demo.introduction.repository;
 
-import com.example.demo.domain.Introduction;
-import com.example.demo.domain.Section;
+import com.example.demo.introduction.domain.Introduction;
+import com.example.demo.introduction.domain.Section;
+import com.example.demo.introduction.repository.dto.IntroductionDto;
+import com.example.demo.introduction.repository.dto.SectionDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

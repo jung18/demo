@@ -1,11 +1,12 @@
-package com.example.demo.api;
+package com.example.demo.introduction.api;
 
-import com.example.demo.domain.Introduction;
-import com.example.demo.domain.Section;
-import com.example.demo.repository.IntroductionDto;
-import com.example.demo.repository.IntroductionListDto;
-import com.example.demo.repository.SectionDto;
-import com.example.demo.service.IntroductionService;
+import com.example.demo.introduction.domain.Introduction;
+import com.example.demo.introduction.domain.Section;
+import com.example.demo.introduction.repository.dto.IntroductionDto;
+import com.example.demo.introduction.repository.dto.IntroductionListDto;
+import com.example.demo.introduction.service.IntroductionService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class IntroductionApiController {
     private final IntroductionService introductionService;
 
     @PostMapping("/api/introduction")
-    public CreateIntroductionResponse saveIntroduction(@RequestBody CreateIntroductionRequest request) {
+    public CreateIntroductionResponse saveIntroduction(@Valid @RequestBody CreateIntroductionRequest request) {
         Introduction introduction = new Introduction(request.getUserId(), request.getTitle());
         List<CreateSectionRequest> sections = request.getSections();
 
@@ -36,7 +37,7 @@ public class IntroductionApiController {
     }
 
     @PutMapping("/api/introduction/{id}")
-    public Long updateIntroduction(@PathVariable("id") Long id, @RequestBody IntroductionDto updateParam) {
+    public Long updateIntroduction(@PathVariable("id") Long id, @Valid @RequestBody IntroductionDto updateParam) {
         return introductionService.updateIntroduction(id, updateParam);
     }
 
@@ -64,13 +65,16 @@ public class IntroductionApiController {
 
     @Getter
     static class CreateIntroductionRequest {
+        @NotNull
         private Long userId;
+        @NotNull
         private String title;
         private List<CreateSectionRequest> sections;
     }
 
     @Getter
     static class CreateSectionRequest {
+        @NotNull
         private String subTitle;
         private String content;
     }
@@ -78,7 +82,7 @@ public class IntroductionApiController {
     @Getter
     @AllArgsConstructor
     static class CreateIntroductionResponse {
-        private Long introductionId;
+        private Long id;
     }
 
     @Getter
