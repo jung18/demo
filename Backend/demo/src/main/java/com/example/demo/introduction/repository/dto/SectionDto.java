@@ -1,4 +1,4 @@
-package com.example.demo.domain;
+package com.example.demo.introduction.repository.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,15 +6,11 @@ import lombok.Setter;
 
 @Getter @Setter
 @AllArgsConstructor
-public class Section {
+public class SectionDto {
 
     private Long id;
     private Long introductionId;
     private String subTitle;
     private String content;
 
-    public Section(String subTitle, String content) {
-        this.subTitle = subTitle;
-        this.content = content;
-    }
 }
