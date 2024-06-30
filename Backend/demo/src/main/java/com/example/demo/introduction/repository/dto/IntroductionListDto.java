@@ -1,4 +1,4 @@
-package com.example.demo.repository;
+package com.example.demo.introduction.repository.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class IntroductionListDto {
 
-    private Long introductionId;
+    private Long id;
     private String title;
 
 }

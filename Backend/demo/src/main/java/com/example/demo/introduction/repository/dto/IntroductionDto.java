@@ -1,8 +1,7 @@
-package com.example.demo.repository;
+package com.example.demo.introduction.repository.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
@@ -10,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public class IntroductionDto {
 
-    private Long introductionId;
+    private Long id;
     private String title;
     private List<SectionDto> sections;
 
