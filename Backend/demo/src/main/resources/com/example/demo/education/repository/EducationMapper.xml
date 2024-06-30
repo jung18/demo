@@ -10,11 +10,23 @@
 
     <update id="updateEducation">
         update education
-        set university_name=#{updateParam.universityName},
-            degree=#{updateParam.degree},
-            major=#{updateParam.major},
-            start_date=#{updateParam.startDate},
-            graduate_date=#{updateParam.graduateDate}
+        <set>
+            <if test="updateParam.universityName != null">
+                university_name=#{updateParam.universityName},
+            </if>
+            <if test="updateParam.degree != null">
+                degree=#{updateParam.degree},
+            </if>
+            <if test="updateParam.major != null">
+                major=#{updateParam.major},
+            </if>
+            <if test="updateParam.startDate != null">
+                start_date=#{updateParam.startDate},
+            </if>
+            <if test="updateParam.graduateDate != null">
+                graduate_date=#{updateParam.graduateDate},
+            </if>
+        </set>
         where id = #{id}
     </update>
 

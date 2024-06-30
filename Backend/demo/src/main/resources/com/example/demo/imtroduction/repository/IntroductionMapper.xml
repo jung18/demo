@@ -24,8 +24,14 @@
 
     <update id="updateSection">
         update section
-        set sub_title=#{updateParam.subTitle},
-        content=#{updateParam.content}
+        <set>
+            <if test="updateParam.subTitle != null">
+                set sub_title=#{updateParam.subTitle},
+            </if>
+            <if test="updateParam.content != null">
+                content=#{updateParam.content},
+            </if>
+        </set>
         where id = #{id}
     </update>
 

@@ -10,12 +10,26 @@
 
     <update id="updateEmployment">
         update employment
-        set company_name=#{updateParam.companyName},
-            position=#{updateParam.position},
-            department=#{updateParam.department},
-            start_date=#{updateParam.startDate},
-            end_date=#{updateParam.endDate},
-            achievement=#{updateParam.achievement}
+        <set>
+            <if test="updateParam.companyName != null">
+                company_name=#{updateParam.companyName},
+            </if>
+            <if test="updateParam.position != null">
+                position=#{updateParam.position},
+            </if>
+            <if test="updateParam.department != null">
+                department=#{updateParam.department},
+            </if>
+            <if test="updateParam.startDate != null">
+                start_date=#{updateParam.startDate},
+            </if>
+            <if test="updateParam.endDate != null">
+                end_date=#{updateParam.endDate},
+            </if>
+            <if test="updateParam.achievement != null">
+                achievement=#{updateParam.achievement},
+            </if>
+        </set>
         where id = #{id}
     </update>
 

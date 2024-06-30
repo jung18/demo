@@ -3,6 +3,7 @@ package com.example.demo.education.service;
 import com.example.demo.education.domain.Education;
 import com.example.demo.education.repository.dto.EducationDto;
 import com.example.demo.education.repository.EducationMapper;
+import com.example.demo.exception.MyUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,20 +17,20 @@ public class EducationService {
 
     private final EducationMapper educationMapper;
 
-    public Education saveEducation(Education education) {
+    public Long saveEducation(Education education) {
         educationMapper.saveEducation(education);
-        return education;
+        return education.getId();
     }
 
-    public Long updateEducation(Long educationId, EducationDto updateParam) {
+    public void updateEducation(Long educationId, EducationDto updateParam) {
         Education findEducation = educationMapper.findByEducationId(educationId);
 
-        if (findEducation == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 데이터");
+        if (!MyUtils.areAllFieldsNull(updateParam)) {
+            if (findEducation == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 데이터");
+            }
+            educationMapper.updateEducation(educationId, updateParam);
         }
-
-        educationMapper.updateEducation(educationId, updateParam);
-        return educationId;
     }
 
     public EducationDto findById(Long educationId) {

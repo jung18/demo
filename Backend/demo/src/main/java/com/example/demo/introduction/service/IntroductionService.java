@@ -1,5 +1,6 @@
 package com.example.demo.introduction.service;
 
+import com.example.demo.exception.MyUtils;
 import com.example.demo.introduction.domain.Introduction;
 import com.example.demo.introduction.domain.Section;
 import com.example.demo.introduction.repository.dto.IntroductionListDto;
@@ -22,29 +23,30 @@ public class IntroductionService {
 
     private final IntroductionMapper introductionMapper;
 
-    public Introduction saveIntroduction(Introduction introduction, List<Section> sections) {
+    public Long saveIntroduction(Introduction introduction, List<Section> sections) {
         introductionMapper.saveIntroduction(introduction);
         introductionMapper.saveSections(introduction.getId(), sections);
-        return introduction;
+        return introduction.getId();
     }
 
-    public Long updateIntroduction(Long introductionId, IntroductionDto updateParam) {
+    public void updateIntroduction(Long introductionId, IntroductionDto updateParam) {
         Introduction findIntroduction = introductionMapper.findByIntroductionId(introductionId);
 
         if (findIntroduction == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 데이터");
         }
-
-        Introduction introduction = new Introduction(updateParam.getTitle());
-        introductionMapper.updateIntroduction(introductionId, introduction);
-
-        List<Section> sections = updateParam.getSections().stream()
-                .map(sectionDto -> new Section(sectionDto.getId(), sectionDto.getIntroductionId(), sectionDto.getSubTitle(), sectionDto.getContent()))
-                .collect(Collectors.toList());
-        for (Section section : sections) {
-            introductionMapper.updateSection(section.getId(), section);
+        if (updateParam.getTitle() != null) {
+            Introduction introduction = new Introduction(updateParam.getTitle());
+            introductionMapper.updateIntroduction(introductionId, introduction);
         }
-        return introductionId;
+        if (updateParam.getSections() != null) {
+            List<Section> sections = updateParam.getSections().stream()
+                    .map(sectionDto -> new Section(sectionDto.getId(), sectionDto.getIntroductionId(), sectionDto.getSubTitle(), sectionDto.getContent()))
+                    .collect(Collectors.toList());
+            for (Section section : sections) {
+                introductionMapper.updateSection(section.getId(), section);
+            }
+        }
     }
 
     public IntroductionDto findById(Long id) {
