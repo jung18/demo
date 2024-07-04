@@ -39,7 +39,7 @@ public class ExControllerAdvice {
     @ExceptionHandler(ResponseStatusException.class)
     public ErrorResult ResponseStatusExHandle(ResponseStatusException e) {
         log.info("[ResponseStatusExHandle] = {}", e.getMessage());
-        return new ErrorResult("Not Found", "존재하지 않는 데이터");
+        return new ErrorResult(e.getStatusCode().toString(), e.getMessage());
     }
 
 }
