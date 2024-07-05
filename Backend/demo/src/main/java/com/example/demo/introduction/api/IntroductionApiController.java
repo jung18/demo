@@ -47,11 +47,10 @@ public class IntroductionApiController {
     }
 
     @GetMapping("/api/introductions/{userId}")
-    public MyIntroductionList findMyIntroductions(@PathVariable("userId") Long userId) {
-        List<IntroductionListDto> myIntroductions = introductionService.findMyIntroductions(userId);
+    public MyIntroductionList findMyIntroductions(@PathVariable("userId") Long id) {
+        List<IntroductionListDto> myIntroductions = introductionService.findMyIntroductions(id);
         return new MyIntroductionList(myIntroductions);
     }
-
 
     @DeleteMapping("/api/introduction/{id}")
     public void deleteIntroduction(@PathVariable("id") Long id) {

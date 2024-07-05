@@ -60,7 +60,7 @@ public class IntroductionService {
     }
 
     public List<IntroductionListDto> findMyIntroductions(Long userId) {
-        return introductionRepository.findAll().stream()
+        return introductionRepository.findMyIntroductions(userId).stream()
                 .map(introduction -> new IntroductionListDto(introduction.getId(), introduction.getTitle()))
                 .collect(Collectors.toList());
     }

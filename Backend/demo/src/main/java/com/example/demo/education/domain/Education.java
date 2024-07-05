@@ -29,6 +29,9 @@ public class Education {
     @Temporal(TemporalType.DATE)
     private LocalDate graduateDate;
 
+    public Education() {
+    }
+
     public Education(String universityName, String degree, String major, LocalDate startDate, LocalDate graduateDate) {
         this.universityName = universityName;
         this.degree = degree;

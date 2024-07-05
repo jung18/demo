@@ -21,10 +21,14 @@ public class Introduction {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "introduction", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(mappedBy = "introduction",fetch = FetchType.EAGER,
+            cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Section> sections = new ArrayList<>();
 
     private String title;
+
+    public Introduction() {
+    }
 
     public Introduction(String title) {
         this.title = title;

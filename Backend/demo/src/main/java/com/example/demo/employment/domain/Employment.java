@@ -29,6 +29,9 @@ public class Employment {
     private LocalDate endDate;
     private String achievement;
 
+    public Employment() {
+    }
+
     public Employment(String companyName, String position, String department, LocalDate startDate, LocalDate endDate, String achievement) {
         this.companyName = companyName;
         this.position = position;

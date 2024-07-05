@@ -14,12 +14,15 @@ public class Section {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "introduction_id")
     private Introduction introduction;
 
     private String subTitle;
     private String content;
+
+    public Section() {
+    }
 
     public Section(String subTitle, String content) {
         this.subTitle = subTitle;

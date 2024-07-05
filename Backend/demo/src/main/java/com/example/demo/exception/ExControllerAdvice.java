@@ -18,21 +18,21 @@ public class ExControllerAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ErrorResult HttpNotReadableExHandle(HttpMessageNotReadableException e) {
         log.info("[HttpNotReadableExHandle] = {}", e.getMessage());
-        return new ErrorResult("Bad Request", "잘못된 입력 값 또는 요청 형식");
+        return new ErrorResult("400 BAD_REQUEST", "잘못된 입력 값 또는 요청 형식");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResult ArgumentNotValidExHandle(MethodArgumentNotValidException e) {
         log.info("[ArgumentNotValidExHandle] = {}", e.getMessage());
-        return new ErrorResult("Bad Request", "필수 값이 비어있음");
+        return new ErrorResult("400 BAD_REQUEST", "필수 값이 비어있음");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ErrorResult TypeMismatchExHandle(MethodArgumentTypeMismatchException e) {
         log.info("[TypeMismatchExHandle] = {}", e.getMessage());
-        return new ErrorResult("Bad Request", "잘못된 요청 경로");
+        return new ErrorResult("400 BAD_REQUEST", "잘못된 요청 경로");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
