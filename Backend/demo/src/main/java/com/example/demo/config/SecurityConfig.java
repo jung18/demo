@@ -30,7 +30,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-                .csrf((csrf) -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
+                .csrf((csrf) -> csrf.ignoringRequestMatchers(
+                        new AntPathRequestMatcher("/h2-console/**"),
+                        new AntPathRequestMatcher("/api/**"))) // postman 때문에 경로 추가함
                 .headers((headers) -> headers.addHeaderWriter(
                         new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
                 .formLogin((formLogin) -> formLogin.loginPage("/user/login").defaultSuccessUrl("/"))

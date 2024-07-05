@@ -3,6 +3,7 @@ package com.example.demo.introduction.service;
 import com.example.demo.introduction.domain.Introduction;
 import com.example.demo.introduction.domain.Section;
 import com.example.demo.introduction.repository.IntroductionRepository;
+import com.example.demo.introduction.repository.SectionRepository;
 import com.example.demo.introduction.repository.dto.IntroductionListDto;
 import com.example.demo.introduction.repository.dto.IntroductionDto;
 import com.example.demo.introduction.repository.dto.SectionDto;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 public class IntroductionService {
 
     private final IntroductionRepository introductionRepository;
+    private final SectionRepository sectionRepository;
     private final UserRepository userRepository;
 
     public Long saveIntroduction(Long userId, Introduction introduction, List<Section> sections) {
@@ -30,11 +33,13 @@ public class IntroductionService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "인증되지 않은 사용자"));
         introduction.setUser(findUser);
         introduction.addSections(sections);
+
         Introduction savedIntroduction = introductionRepository.save(introduction);
+        sectionRepository.saveAll(sections);
         return savedIntroduction.getId();
     }
 
-//    @Transactional(rollbackFor = ResponseStatusException.class) // 없어도 되는지 확인하기
+    @Transactional(rollbackFor = ResponseStatusException.class)
     public void updateIntroduction(Long introductionId, IntroductionDto updateParam) {
         Introduction findIntroduction = introductionRepository.findById(introductionId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 데이터"));
@@ -70,6 +75,6 @@ public class IntroductionService {
     }
 
     public void deleteSection(Long id) {
-        introductionRepository.deleteSectionById(id);
+        sectionRepository.deleteById(id);
     }
 }
