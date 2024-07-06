@@ -41,8 +41,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	implementation 'javax.servlet:javax.servlet-api:4.0.1'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jar {
+	manifest {
+		attributes(
+				'Implementation-Title': 'Demo Application',
+				'Implementation-Version': version,
+				'Main-Class': 'com.example.demo.DemoApplication' // Replace with your main class path
+		)
+	}
 }
