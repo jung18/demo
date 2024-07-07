@@ -24,8 +24,8 @@ public class UserService {
         UserSet user = new UserSet();
         user.setUsername(username);
         user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        this.userRepository.save(user);
+        user.setPassword(password);
+        saveUser(user);
         return user;
     }
 
@@ -36,5 +36,25 @@ public class UserService {
         } else {
             throw new DataNotFoundException("사용자를 찾을 수 없습니다.");
         }
+    }
+
+    // 비밀번호를 암호화하여 저장하는 메소드
+    public void saveUser(UserSet user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    // 비밀번호 변경 기능
+    public UserSet changePassword(String username, String newPassword) {
+        UserSet user = getUser(username);
+        user.setPassword(newPassword);
+        saveUser(user);
+        return user;
+    }
+
+    // 사용자 삭제 기능
+    public void deleteUser(String username) {
+        UserSet user = getUser(username);
+        this.userRepository.delete(user);
     }
 }
