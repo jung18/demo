@@ -1,5 +1,8 @@
 package com.example.demo.config;
 
+import com.example.demo.user.service.CustomOAuth2UserService;
+import com.example.demo.user.service.UserSecurityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,7 +15,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final UserSecurityService userSecurityService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,7 +39,10 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true))
                 .oauth2Login(oauth2Login -> oauth2Login
-                        .defaultSuccessUrl("/home", true));
+                        .loginPage("/user/login")
+                        .defaultSuccessUrl("/additional-info", true)
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(customOAuth2UserService)));
 
         return http.build();
     }

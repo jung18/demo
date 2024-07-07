@@ -15,22 +15,23 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserSet create(String username, String email, String password) {
-        Optional<UserSet> existingUser = userRepository.findByUsername(username);
+    public UserSet create(String id, String username, String email, String password) {
+        Optional<UserSet> existingUser = userRepository.findByUserId(id);
         if (existingUser.isPresent()) {
             throw new DataNotFoundException("이미 존재하는 사용자입니다.");
         }
 
         UserSet user = new UserSet();
+        user.setUserId(id);
         user.setUsername(username);
         user.setEmail(email);
-        user.setPassword(password);
-        saveUser(user);
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
         return user;
     }
 
-    public UserSet getUser(String username) {
-        Optional<UserSet> user = this.userRepository.findByUsername(username);
+    public UserSet getUser(String id) {
+        Optional<UserSet> user = userRepository.findByUserId(id);
         if (user.isPresent()) {
             return user.get();
         } else {
@@ -45,16 +46,16 @@ public class UserService {
     }
 
     // 비밀번호 변경 기능
-    public UserSet changePassword(String username, String newPassword) {
-        UserSet user = getUser(username);
+    public UserSet changePassword(String id, String newPassword) {
+        UserSet user = getUser(id);
         user.setPassword(newPassword);
         saveUser(user);
         return user;
     }
 
     // 사용자 삭제 기능
-    public void deleteUser(String username) {
-        UserSet user = getUser(username);
+    public void deleteUser(String id) {
+        UserSet user = getUser(id);
         this.userRepository.delete(user);
     }
 }
