@@ -53,8 +53,6 @@ tasks.named('test') {
 jar {
 	manifest {
 		attributes(
-				'Implementation-Title': 'Demo Application',
-				'Implementation-Version': version,
 				'Main-Class': 'com.example.demo.DemoApplication' // Replace with your main class path
 		)
 	}

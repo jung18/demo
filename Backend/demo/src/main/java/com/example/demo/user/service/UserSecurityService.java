@@ -1,6 +1,7 @@
 package com.example.demo.user.service;
 
 import com.example.demo.user.domain.Role;
+import com.example.demo.user.domain.UserSet;
 import com.example.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User.UserBuilder;
@@ -19,11 +20,11 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<com.example.demo.user.domain.User> _user = userRepository.findByUsername(username);
+        Optional<UserSet> _user = userRepository.findByUsername(username);
         if (_user.isEmpty()) {
             throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
         }
-        com.example.demo.user.domain.User user = _user.get();
+        UserSet user = _user.get();
         UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(user.getUsername());
         builder.password(user.getPassword());
         builder.roles(user.getRoles().stream().map(Role::getRoleName).toArray(String[]::new));
