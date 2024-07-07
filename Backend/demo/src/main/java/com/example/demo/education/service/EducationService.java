@@ -3,7 +3,7 @@ package com.example.demo.education.service;
 import com.example.demo.education.domain.Education;
 import com.example.demo.education.repository.EducationRepository;
 import com.example.demo.education.repository.dto.EducationDto;
-import com.example.demo.user.domain.User;
+import com.example.demo.user.domain.UserSet;
 import com.example.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class EducationService {
     private final UserRepository userRepository;
 
     public Long saveEducation(Long userId, Education education) {
-        User findUser = userRepository.findById(userId)
+        UserSet findUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "인증되지 않은 사용자"));
         education.setUser(findUser);
         Education savedEducation = educationRepository.save(education);

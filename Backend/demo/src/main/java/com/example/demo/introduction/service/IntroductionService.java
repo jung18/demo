@@ -7,7 +7,7 @@ import com.example.demo.introduction.repository.SectionRepository;
 import com.example.demo.introduction.repository.dto.IntroductionListDto;
 import com.example.demo.introduction.repository.dto.IntroductionDto;
 import com.example.demo.introduction.repository.dto.SectionDto;
-import com.example.demo.user.domain.User;
+import com.example.demo.user.domain.UserSet;
 import com.example.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class IntroductionService {
     private final UserRepository userRepository;
 
     public Long saveIntroduction(Long userId, Introduction introduction, List<Section> sections) {
-        User findUser = userRepository.findById(userId)
+        UserSet findUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "인증되지 않은 사용자"));
         introduction.setUser(findUser);
         introduction.addSections(sections);

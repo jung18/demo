@@ -1,8 +1,7 @@
 package com.example.demo.education.domain;
 
-import com.example.demo.user.domain.User;
+import com.example.demo.user.domain.UserSet;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,7 @@ public class Education {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserSet user;
 
     private String universityName;
     private String degree;

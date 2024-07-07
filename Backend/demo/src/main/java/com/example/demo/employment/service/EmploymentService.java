@@ -3,7 +3,7 @@ package com.example.demo.employment.service;
 import com.example.demo.employment.domain.Employment;
 import com.example.demo.employment.repository.EmploymentRepository;
 import com.example.demo.employment.repository.dto.EmploymentDto;
-import com.example.demo.user.domain.User;
+import com.example.demo.user.domain.UserSet;
 import com.example.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ public class EmploymentService {
     private final UserRepository userRepository;
 
     public Long saveEmployment(Long userId, Employment employment) {
-        User findUser = userRepository.findById(userId)
+        UserSet findUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "인증되지 않은 사용자"));
         employment.setUser(findUser);
         Employment savedEmployment = employmentRepository.save(employment);
