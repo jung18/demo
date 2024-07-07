@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.user.service.UserSecurityService;
+import com.example.demo.user.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final UserSecurityService userSecurityService;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,7 +38,11 @@ public class SecurityConfig {
                         .loginPage("/user/login")
                         .defaultSuccessUrl("/home")) // 로그인 성공 시 /home 으로 리다이렉트
                 .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                        .logoutSuccessUrl("/").invalidateHttpSession(true));
+                        .logoutSuccessUrl("/").invalidateHttpSession(true))
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/user/login")
+                        .userInfoEndpoint()
+                        .userService(customOAuth2UserService)); // Google OAuth2 로그인 설정
         return http.build();
     }
 
