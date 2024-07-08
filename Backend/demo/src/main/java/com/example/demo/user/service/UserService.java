@@ -5,7 +5,7 @@ import com.example.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -15,6 +15,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public UserSet create(String id, String username, String email, String password) {
         Optional<UserSet> existingUser = userRepository.findByUserId(id);
         if (existingUser.isPresent()) {
@@ -48,7 +49,7 @@ public class UserService {
     // 비밀번호 변경 기능
     public UserSet changePassword(String id, String newPassword) {
         UserSet user = getUser(id);
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         saveUser(user);
         return user;
     }
@@ -57,5 +58,16 @@ public class UserService {
     public void deleteUser(String id) {
         UserSet user = getUser(id);
         this.userRepository.delete(user);
+    }
+
+    // 사용자 인증 기능
+    public boolean authenticate(String userId, String rawPassword) {
+        Optional<UserSet> userOptional = userRepository.findByUserId(userId);
+        if (userOptional.isPresent()) {
+            UserSet user = userOptional.get();
+            return passwordEncoder.matches(rawPassword, user.getPassword());
+        } else {
+            return false;
+        }
     }
 }

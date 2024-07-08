@@ -2,9 +2,9 @@ import axios from 'axios'
 import axiosInstance from './AxiosInstance';
 
 // 로그인
-export const fetchLogin = (email, password) => {
+export const fetchLogin = (userId, password) => {
   return axiosInstance.post('/user/login', {
-    email,
+    userId,
     password
   }).then(response => {
     return response;

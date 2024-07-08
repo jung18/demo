@@ -1,15 +1,16 @@
 package com.example.demo.user.api;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import com.example.demo.user.service.UserService;
 import com.example.demo.user.domain.UserCreateForm;
+import com.example.demo.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
+    public String signup(@Valid @RequestBody UserCreateForm userCreateForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "signup_form";
         }
@@ -47,8 +48,27 @@ public class UserController {
         return "redirect:/";
     }
 
+    @PostMapping("/login")
+    @ResponseBody
+    public Map<String, Object> login(@RequestBody Map<String, String> payload) {
+        String userId = payload.get("userId");
+        String password = payload.get("password");
+
+        boolean isAuthenticated = userService.authenticate(userId, password);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("authenticated", isAuthenticated);
+        if (isAuthenticated) {
+            response.put("message", "로그인 성공");
+        } else {
+            response.put("message", "로그인 실패");
+        }
+
+        return response;
+    }
+
     @GetMapping("/login")
-    public String login() {
+    public String loginForm() {
         return "login_form";
     }
 }

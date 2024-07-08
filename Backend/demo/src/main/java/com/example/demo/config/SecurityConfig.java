@@ -27,28 +27,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.disable());
-//                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-//                .csrf(csrf -> csrf.ignoringRequestMatchers(
-//                        new AntPathRequestMatcher("/h2-console/**"),
-//                        new AntPathRequestMatcher("/api/**")))
-//                .headers(headers -> headers.addHeaderWriter(
-//                        new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
-//                .formLogin(formLogin -> formLogin
-//                        .loginPage("/user/login")
-//                        .defaultSuccessUrl("/home"))
-//                .logout(logout -> logout
-//                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-//                        .logoutSuccessUrl("/")
-//                        .invalidateHttpSession(true))
-//                .oauth2Login(oauth2Login -> oauth2Login
-//                        .loginPage("/user/login")
-//                        .defaultSuccessUrl("/additional-info", true)
-//                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-//                                .userService(customOAuth2UserService)));
-//
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+                .csrf(csrf -> csrf.ignoringRequestMatchers(
+                        new AntPathRequestMatcher("/h2-console/**"),
+                        new AntPathRequestMatcher("/api/**"),
+                        new AntPathRequestMatcher("/user/signup"),
+                        new AntPathRequestMatcher("/user/**")))
+                .headers(headers -> headers.addHeaderWriter(
+                        new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+                .formLogin(formLogin -> formLogin
+                        .loginPage("/user/login")
+                        .defaultSuccessUrl("/home"))
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true))
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/user/login")
+                        .defaultSuccessUrl("/additional-info", true)
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .userService(customOAuth2UserService)));
 
         return http.build();
     }
