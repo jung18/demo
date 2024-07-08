@@ -12,7 +12,7 @@ import com.example.demo.user.domain.UserCreateForm;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
+// import org.springframework.dao.DataIntegrityViolationException;
 
 @RequiredArgsConstructor
 @Controller
