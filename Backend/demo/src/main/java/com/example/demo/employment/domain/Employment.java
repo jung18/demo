@@ -1,6 +1,6 @@
 package com.example.demo.employment.domain;
 
-import com.example.demo.user.domain.User;
+import com.example.demo.user.domain.UserSet;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class Employment {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserSet user;
 
     private String companyName;
     private String position;

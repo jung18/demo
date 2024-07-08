@@ -1,6 +1,6 @@
 package com.example.demo.introduction.domain;
 
-import com.example.demo.user.domain.User;
+import com.example.demo.user.domain.UserSet;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class Introduction {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private UserSet user;
 
     @OneToMany(mappedBy = "introduction",fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE, orphanRemoval = true)
