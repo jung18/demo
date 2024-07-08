@@ -15,8 +15,9 @@ export const fetchLogin = (email, password) => {
 
 
 // 회원가입 
-export const fetchSignup = (username, email, password, confirmPassword) => {
+export const fetchSignup = (id, username, email, password, confirmPassword) => {
   return axiosInstance.post('/user/signup', {
+    id,
     username, 
     email, 
     password, 

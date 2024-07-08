@@ -4,6 +4,7 @@ import { fetchSignup } from "../api/AuthApi"
 import Sidebar from "../ui/Sidebar"
 
 const Signup = () => {
+  const [id, setId] = useState('');  
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,6 +33,10 @@ const Signup = () => {
     <div className="form-container">
       <h1>회원가입</h1>
       <form onSubmit={handleSubmit}>
+        <div>
+          <label>아이디:</label>
+          <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
+        </div>
         <div>
           <label>이름:</label>
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
