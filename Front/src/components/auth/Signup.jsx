@@ -4,7 +4,7 @@ import { fetchSignup } from "../api/AuthApi"
 import Sidebar from "../ui/Sidebar"
 
 const Signup = () => {
-  const [id, setId] = useState('');  
+  const [userId, setuserId] = useState('');  
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,12 +18,13 @@ const Signup = () => {
     }
 
     try {
-      await fetchSignup(username, email, password, confirmPassword);
+      await fetchSignup(userId, username, email, password, confirmPassword);
       // 회원가입 성공 처리
       console.log('회원가입 성공');
     } catch (error) {
       // 회원가입 실패 처리
-      console.error('회원가입 실패:', error);
+      console.error('회원가입 실패:', error.response ? error.response.data : error.message);
+    alert(`회원가입 실패: ${error.response ? error.response.data.error : error.message}`)
     }
   };
 
@@ -35,7 +36,7 @@ const Signup = () => {
       <form onSubmit={handleSubmit}>
         <div>
           <label>아이디:</label>
-          <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
+          <input type="text" value={userId} onChange={(e) => setuserId(e.target.value)} />
         </div>
         <div>
           <label>이름:</label>

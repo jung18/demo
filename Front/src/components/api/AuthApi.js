@@ -15,9 +15,9 @@ export const fetchLogin = (email, password) => {
 
 
 // 회원가입 
-export const fetchSignup = (id, username, email, password, confirmPassword) => {
+export const fetchSignup = (userId, username, email, password, confirmPassword) => {
   return axiosInstance.post('/user/signup', {
-    id,
+    userId,
     username, 
     email, 
     password, 
@@ -25,6 +25,7 @@ export const fetchSignup = (id, username, email, password, confirmPassword) => {
   }).then(response => {
     return response;
   }).catch(error => {
+    console.error('회원가입 요청 에러:', error.response ? error.response.data : error.message)
     throw error; 
   });
 };

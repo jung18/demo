@@ -46,7 +46,7 @@ export const getMyIntroductions = (userId) => {
 
 // 자소서 삭제
 export const deleteIntroduction = (introductionId) => {
-  return axiosInstance.delete(`/api/introduction/{id}`)
+  return axiosInstance.delete(`/api/introduction/${introductionId}`)
   .then(response => response.data)
   .catch(error=>{
     throw error
